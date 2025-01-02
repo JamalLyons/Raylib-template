@@ -1,17 +1,97 @@
+//
+// Created by codingwithjamal on 1/1/2025.
+//
+
 #include "main.h"
 
-int main() {
-    InitWindow(800, 450, "CodingWithJamal Raylib Template");
+struct GameState {
+    GameActivityState activity_state;
+};
 
-    while (!WindowShouldClose())
-    {
+int main() {
+    InitWindow(Config::WindowWidth, Config::WindowHeight, Config::WindowTitle);
+
+    SetTargetFPS(Config::FPS);
+
+    GameState game_state{ .activity_state = GameActivityState::MENU };
+
+    while (!WindowShouldClose()) {
+        // Update game logic
+        update(game_state);
+
+        // Draw the game
         BeginDrawing();
         ClearBackground(BLACK);
-        DrawText("This is a window!", 190, 200, 20, WHITE);
+        draw(game_state);
         EndDrawing();
     }
 
     CloseWindow();
 
     return 0;
+}
+
+// Update game logic based on the current state
+void update(GameState& game_state) {
+    switch (game_state.activity_state) {
+        case GameActivityState::MENU:
+            if (IsKeyPressed(KEY_ENTER)) {
+                game_state.activity_state = GameActivityState::PLAYING;
+            }
+        break;
+        case GameActivityState::PLAYING:
+            if (IsKeyPressed(KEY_P)) {
+                game_state.activity_state = GameActivityState::PAUSED;
+            }
+        break;
+        case GameActivityState::PAUSED:
+            if (IsKeyPressed(KEY_R)) {
+                game_state.activity_state = GameActivityState::PLAYING;
+            }
+        break;
+        case GameActivityState::LOADING:
+            // Simulate loading or transition logic
+                game_state.activity_state = GameActivityState::MENU;
+        break;
+        case GameActivityState::SETTINGS:
+            if (IsKeyPressed(KEY_TAB)) {
+                game_state.activity_state = GameActivityState::MENU;
+            }
+        break;
+        case GameActivityState::GAME_OVER:
+            if (IsKeyPressed(KEY_ENTER)) {
+                game_state.activity_state = GameActivityState::MENU;
+            }
+        break;
+        default:
+            game_state.activity_state = GameActivityState::MENU;
+        break;
+    }
+}
+
+void draw(const GameState& game_state) {
+    // Render visuals based on the current state
+    switch (game_state.activity_state) {
+        case GameActivityState::MENU:
+            DrawText("Menu Screen - Press ENTER to Play", Config::WindowWidth / 2 - 200, Config::WindowHeight / 2, 20, WHITE);
+            break;
+        case GameActivityState::PLAYING:
+            DrawText("Playing - Press P to Pause", Config::WindowWidth / 2 - 100, Config::WindowHeight / 2, 20, WHITE);
+            break;
+        case GameActivityState::PAUSED:
+            DrawText("Paused - Press R to Resume", Config::WindowWidth / 2 - 100, Config::WindowHeight / 2, 20, WHITE);
+            break;
+        case GameActivityState::LOADING:
+            DrawText("Loading...", Config::WindowWidth / 2 - 50, Config::WindowHeight / 2, 20, WHITE);
+            break;
+        case GameActivityState::SETTINGS:
+            DrawText("Settings - Press ESC to Return", Config::WindowWidth / 2 - 100, Config::WindowHeight / 2, 20, WHITE);
+            break;
+        case GameActivityState::GAME_OVER:
+            DrawText("Game Over - Press ENTER to Restart", Config::WindowWidth / 2 - 150, Config::WindowHeight / 2, 20, WHITE);
+            break;
+        default:
+            DrawText("Unknown State", Config::WindowWidth / 2 - 50, Config::WindowHeight / 2, 20, RED);
+            break;
+    }
 }

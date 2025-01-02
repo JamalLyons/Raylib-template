@@ -7,7 +7,9 @@ set(CMAKE_CXX_STANDARD 26)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_executable(Raylib_template WIN32 src/main.cpp
-        src/main.h)
+        src/main.h
+        src/constants.h
+)
 
 # Dependencies
 set(RAYLIB_VERSION 5.5)

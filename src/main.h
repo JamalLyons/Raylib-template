@@ -11,4 +11,11 @@
 // External libraries
 #include "raylib.h"
 
+// Local includes
+#include "constants.h"
+
+struct GameState;
+void update(GameState& game_state);
+void draw(const GameState& game_state);
+
 #endif //MAIN_H
