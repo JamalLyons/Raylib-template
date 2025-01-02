@@ -6,10 +6,20 @@ set(CMAKE_CXX_STANDARD 26)
 # Generate compile_commands.json
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-add_executable(Raylib_template WIN32 src/main.cpp
-        src/main.h
-        src/constants.h
-)
+# Remove console for Release builds
+if (CMAKE_BUILD_TYPE STREQUAL "Release")
+    add_executable(Raylib_template WIN32
+            src/main.cpp
+            src/main.h
+            src/constants.h
+    )
+else()
+    add_executable(Raylib_template
+            src/main.cpp
+            src/main.h
+            src/constants.h
+    )
+endif()
 
 # Dependencies
 set(RAYLIB_VERSION 5.5)
