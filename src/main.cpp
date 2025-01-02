@@ -3,15 +3,15 @@
 //
 
 #include "main.h"
-
-struct GameState {
-    GameActivityState activity_state;
-};
+#include "raylib.h"
+#include "AudioResourceManager.h"
 
 int main() {
     InitWindow(Config::WindowWidth, Config::WindowHeight, Config::WindowTitle);
-
     SetTargetFPS(Config::FPS);
+
+    AudioResourceManager audioManager;
+    audioManager.loadAudioResources();
 
     GameState game_state{ .activity_state = GameActivityState::MENU };
 
@@ -23,6 +23,11 @@ int main() {
         BeginDrawing();
         ClearBackground(BLACK);
         draw(game_state);
+
+        if (IsKeyPressed(KEY_SPACE)) {
+            audioManager.playAudio("spring-effect");
+        }
+
         EndDrawing();
     }
 
