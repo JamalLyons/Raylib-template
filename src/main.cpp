@@ -12,6 +12,7 @@ int main() {
 
     AudioResourceManager audioManager;
     audioManager.loadAudioResources();
+    audioManager.buildAudioHeaders();
 
     GameState game_state{ .activity_state = GameActivityState::MENU };
 

@@ -32,6 +32,13 @@ public:
     // Unload all loaded sound resources
     void unloadAllAudio();
 
+    // A utility function to build all audio headers from wave files
+    // This is used so sound resources can be embedded in the final executable without having to load them at runtime.
+    // The function can be enabled in the constants.h file.
+    //
+    // This function is meant to be ran in development only and should not be enabled in release builds.
+    void buildAudioHeaders();
+
 private:
     std::unordered_map<std::string, Sound> audioResources;
     std::unordered_map<std::string, std::string> predefinedAudioPaths = {
