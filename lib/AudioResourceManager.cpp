@@ -5,20 +5,12 @@
 
 #include "../includes/constants.h"
 
+// Audio headers
+#include "../resources/audio/headers/spring_audio.h"
+
 AudioResourceManager::AudioResourceManager() {
     InitAudioDevice();
-    // I disabled this because I prefer to load audio using the raw function.
-    // I will keep this in the template just for functionality, however if this is enabled
-    // then audio will be loaded at runtime using the file paths which will require the user to
-    // install the audio files in the release build.
-    //
-    // The workaround I found for development was to use the AudioResourceManager::buildAudioHeaders()
-    // function when adding new source files to the project and simply calling AudioResourceManager::playRawAudio()
-    // when playing sounds. The function will cache the wave data on the first time it is called.
-    // I'm still new to c++ programming but right now I cant find a good API for this class and keep the
-    // dynamic header file functionality. If the header files are not known at compile time then
-    // the code will not build, and we need to build them to get the audio headers loaded and cached...
-    // loadAudioResources();
+    loadAudioResources();
 }
 
 AudioResourceManager::~AudioResourceManager() {
@@ -27,16 +19,15 @@ AudioResourceManager::~AudioResourceManager() {
 }
 
 void AudioResourceManager::loadAudioResources() {
-    for (const auto &[key, path] : predefinedAudioPaths) {
-        if (!audioResources.contains(key)) {
-            if (const Sound sound = LoadSound(path.c_str()); sound.stream.buffer == nullptr) {
-                std::cerr << "Error: Failed to load sound from path: " << path << std::endl;
-            } else {
-                audioResources[key] = sound;
-                std::cout << "Loaded audio: " << key << std::endl;
-            }
-        }
-    }
+    constexpr Wave wave{
+        .frameCount = SPRING_AUDIO_FRAME_COUNT,
+        .sampleRate = SPRING_AUDIO_SAMPLE_RATE,
+        .sampleSize = SPRING_AUDIO_SAMPLE_SIZE,
+        .channels = SPRING_AUDIO_CHANNELS,
+        .data = SPRING_AUDIO_DATA
+    };
+
+    audioResources["spring-effect"] = LoadSoundFromWave(wave);
 }
 
 
