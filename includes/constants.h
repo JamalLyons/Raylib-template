@@ -11,7 +11,9 @@ namespace Config {
     static constexpr int WindowHeight = 450;
     static constexpr auto WindowTitle = "CodingWithJamal Raylib Template";
 
-    static constexpr bool buildAudioHeaders = true;
+    // Enable audio file header building in development.
+    // Remember to disable this in release builds.
+    static constexpr bool buildAudioHeaders = false;
 }
 
 enum class GameActivityState {
