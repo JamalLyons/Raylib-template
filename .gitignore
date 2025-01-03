@@ -13,7 +13,6 @@ CMakeCache.txt
 Makefile
 *.cmake
 compile_commands.json
-resources/audio/headers/*.h
 
 # Ignore executables and binaries
 *.exe

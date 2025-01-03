@@ -20,6 +20,10 @@ public:
     // Play a sound resource
     void playAudio(const std::string &key);
 
+    // Play a raw sound resource
+    // Used mainly for playing audio header files
+    void playRawAudio(const std::string &key, const Wave &wave);
+
     // Stop a sound resource
     void stopAudio(const std::string &key);
 
@@ -36,10 +40,11 @@ public:
     // This is used so sound resources can be embedded in the final executable without having to load them at runtime.
     // The function can be enabled in the constants.h file.
     //
-    // This function is meant to be ran in development only and should not be enabled in release builds.
+    // This function is meant to be run in development only and should not be enabled in release builds.
     void buildAudioHeaders();
 
 private:
+    // Audio sound cache
     std::unordered_map<std::string, Sound> audioResources;
     std::unordered_map<std::string, std::string> predefinedAudioPaths = {
         // Sound effects

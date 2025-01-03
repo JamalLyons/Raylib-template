@@ -6,12 +6,13 @@
 #include "raylib.h"
 #include "AudioResourceManager.h"
 
+#include "../resources/audio/headers/spring_audio.h"
+
 int main() {
     InitWindow(Config::WindowWidth, Config::WindowHeight, Config::WindowTitle);
     SetTargetFPS(Config::FPS);
 
     AudioResourceManager audioManager;
-    audioManager.loadAudioResources();
     audioManager.buildAudioHeaders();
 
     GameState game_state{ .activity_state = GameActivityState::MENU };
@@ -26,7 +27,14 @@ int main() {
         draw(game_state);
 
         if (IsKeyPressed(KEY_SPACE)) {
-            audioManager.playAudio("spring-effect");
+            Wave wave{
+                .frameCount = SPRING_AUDIO_FRAME_COUNT,
+                .sampleRate = SPRING_AUDIO_SAMPLE_RATE,
+                .sampleSize = SPRING_AUDIO_SAMPLE_SIZE,
+                .channels = SPRING_AUDIO_CHANNELS,
+                .data = SPRING_AUDIO_DATA
+            };
+            audioManager.playRawAudio("spring-effect", wave);
         }
 
         EndDrawing();
