@@ -10,6 +10,8 @@ namespace Config {
     static constexpr int WindowWidth = 800;
     static constexpr int WindowHeight = 450;
     static constexpr auto WindowTitle = "CodingWithJamal Raylib Template";
+
+    static constexpr bool buildAudioHeaders = true;
 }
 
 enum class GameActivityState {
